@@ -28,7 +28,7 @@ node(POD_LABEL) {
             sh """
                 mv packaging/debian ./
                 echo 1.0 > debian/source/format
-                dpkg-buildpackage -us -uc
+                dpkg-buildpackage -us -uc -rfakeroot
                 ls -la 
             """     
         }
