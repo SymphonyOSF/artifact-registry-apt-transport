@@ -35,11 +35,23 @@ node(POD_LABEL) {
                     mv packaging/debian ./
                     echo 1.0 > debian/source/format
                     dpkg-buildpackage -us -uc -rfakeroot
-                    ls -la 
+                    find . -type g -name "apt-transport-artifact-registry_20210304.00-g1_amd64.deb" 
                 """
                 } 
             }
         }
+    }
+
+    stage("publish") {
+        sh """
+        gcloud artifacts generic upload \
+            --project=sym-prod-mr-tools-01 \
+            --source= \
+            --package=deb \
+            --version=1.0 \
+            --location=us-east4 \
+            --repository=sym-generic
+        """
     }
 }}
 
