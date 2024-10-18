@@ -26,8 +26,6 @@ node(POD_LABEL) {
     stage("build") {
         container("ubuntu") {
             sh """
-                apt-get update
-                apt-get install -y --no-install-recommends debhelper dh-golang golang-go
                 cp packaging/debian ./
                 echo 1.0 > debian/source/format
                 dpkg-buildpackage -us -uc
