@@ -37,7 +37,7 @@ node(POD_LABEL) {
                     dpkg-buildpackage -us -uc -rfakeroot 
                     """
 
-                    sh 'find . -type f -name "apt-transport-artifact-registry_20210304.00-g1_amd64.deb"'
+                    sh 'find ../ -type f -name "apt-transport-artifact-registry_20210304.00-g1_amd64.deb"'
                 } 
             }
         }
