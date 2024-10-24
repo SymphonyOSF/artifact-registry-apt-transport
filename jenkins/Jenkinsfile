@@ -47,7 +47,7 @@ node(POD_LABEL) {
         sh """
         gcloud artifacts generic upload \
             --project=sym-prod-mr-tools-01 \
-            --source= ../apt-transport-artifact-registry_20210304.00-g1_amd64.deb \
+            --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
             --package=deb \
             --version=1.0 \
             --location=us-east4 \
