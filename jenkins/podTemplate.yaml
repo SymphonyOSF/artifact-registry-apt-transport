@@ -22,7 +22,7 @@ spec:
         name: "homedir"
   - name: "ubuntu"
     # image: "us-east4-docker.pkg.dev/sym-prod-mr-tools-01/jenkins-docker-us-east4/ubuntu:noble.Production-9-f0b0729"
-    image: "us-east4-docker.pkg.dev/sym-prod-mr-tools-01/jenkins-docker-us-east4/ubuntu:noble.Production-10-478f919
+    image: "us-east4-docker.pkg.dev/sym-prod-mr-tools-01/jenkins-docker-us-east4/ubuntu:noble.Production-10-478f919"
     imagePullPolicy: Always
     securityContext:
       seccompProfile:
