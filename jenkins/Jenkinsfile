@@ -29,7 +29,7 @@ node(POD_LABEL) {
                 usernamePassword(credentialsId: 'repo-symphony', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')
             ]) {
                 withEnv([
-                    // "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-remote-mirror"
+                    "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-remote-mirror"
                 ]) {
                     sh """
                     mv packaging/debian ./
