@@ -34,7 +34,7 @@ node(POD_LABEL) {
                     sh """
                     mv packaging/debian ./
                     echo 1.0 > debian/source/format
-                    grep -v GOPROXY debian/rules > debian/rules
+                    sed -i '/GOPROXY/d' debian/rules
                     dpkg-buildpackage -us -uc -rfakeroot 
                     """
 
