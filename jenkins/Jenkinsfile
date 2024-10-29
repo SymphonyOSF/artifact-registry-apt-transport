@@ -60,9 +60,10 @@ node(POD_LABEL) {
 }}
 
 def addArtifactLinkToDescription(name, url) {
-  if (!currentBuild.description) {
-    currentBuild.description = ""
-  }
   String artifactLink = "<a href='${url}'>${name}</a><br>"
-  currentBuild.description = currentBuild.description + artifactLink
+  if (currentBuild.description) {
+    currentBuild.description = currentBuild.description + artifactLink
+  } esle {
+    currentBuild.description = artifactLink
+  }
 }
