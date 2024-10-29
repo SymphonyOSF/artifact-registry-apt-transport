@@ -24,7 +24,7 @@ node(POD_LABEL) {
 
   stage("checkout") {        
     gitHash = gitCheckout()
-    version = "${BRANCH_NAME}.${BUILD_ID}.${gitHash}"
+    version = "${BRANCH_NAME}.${BUILD_ID}.${gitHash}".toLowerCase()
     addArtifactLinkToDescription("${projectRepo}:${version}", "https://console.cloud.google.com/artifacts/generic/sym-prod-mr-tools-01/us-east4/sym-generic/${projectRepo}/${version}")
   }
 
