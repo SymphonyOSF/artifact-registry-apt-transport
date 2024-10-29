@@ -8,7 +8,6 @@ def isPullRequest = cicdUtils.isPullRequest()
 String projectOrg = "SymphonyOSF"
 String projectRepo = "artifact-registry-apt-transport"
 
-
 podTemplate(
   cloud: "kubernetes-build-cicd-jenkins-agent",
   yaml: readTrusted('jenkins/podTemplate.yaml'),
@@ -46,15 +45,14 @@ node(POD_LABEL) {
   }
 
   stage("publish") {
-    
     sh """
       gcloud artifacts generic upload \
-          --project=sym-prod-mr-tools-01 \
-          --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
-          --package=${projectRepo} \
-          --version=${version} \
-          --location=us-east4 \
-          --repository=sym-generic
+        --project=sym-prod-mr-tools-01 \
+        --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
+        --package=${projectRepo} \
+        --version=${version} \
+        --location=us-east4 \
+        --repository=sym-generic
     """
   }
 }}
