@@ -61,7 +61,7 @@ def addArtifactLinkToDescription(name, url) {
   String artifactLink = "<a href='${url}'>${name}</a><br>"
   if (currentBuild.description) {
     currentBuild.description = currentBuild.description + artifactLink
-  } esle {
+  } else {
     currentBuild.description = artifactLink
   }
 }
