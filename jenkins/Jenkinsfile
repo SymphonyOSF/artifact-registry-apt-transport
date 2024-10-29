@@ -32,15 +32,14 @@ node(POD_LABEL) {
       withCredentials([
               usernamePassword(credentialsId: 'repo-symphony', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')
       ]) {
-          sh """
-            export "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
-            mv packaging/debian ./
-            echo 1.0 > debian/source/format
-            sed -i 's/1.23/1.22/g' go.mod
-            sed -i '/GOPROXY/d' debian/rules
-            dpkg-buildpackage -us -uc -rfakeroot || true
-          """
-          sh "sleep 3h"
+        sh """
+          export "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
+          mv packaging/debian ./
+          echo 1.0 > debian/source/format
+          sed -i 's/1.23/1.22/g' go.mod
+          sed -i '/GOPROXY/d' debian/rules
+          dpkg-buildpackage -us -uc -rfakeroot || true
+        """
       }
     }
   }
