@@ -16,45 +16,49 @@ podTemplate(
 ) {
 
 node(POD_LABEL) {
-    stage("setup"){
-        sh "env"
-    }
-    stage("checkout") {        
-        gitHash = gitCheckout()
-        echo "Git hash: ${gitHash}"
-    }
-    stage("build") {
-        container("ubuntu") {
-            withCredentials([
-                usernamePassword(credentialsId: 'repo-symphony', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')
-            ]) {
-                withEnv([
-                    "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
-                ]) {
-                    sh """
-                    mv packaging/debian ./
-                    echo 1.0 > debian/source/format
-                    sed -i 's/1.23/1.22/g' go.mod
-                    sed -i '/GOPROXY/d' debian/rules
-                    dpkg-buildpackage -us -uc -rfakeroot || true
-                    """
-                    sh "sleep 3h"
-                } 
-            }
-        }
-    }
+  properties([disableConcurrentBuilds(abortPrevious: true)])
 
-    stage("publish") {
-        sh """
-        gcloud artifacts generic upload \
-            --project=sym-prod-mr-tools-01 \
-            --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
-            --package=deb \
-            --version=1.0 \
-            --location=us-east4 \
-            --repository=sym-generic
-        """
+  stage("setup"){
+    sh "env | sort"
+  }
+
+  stage("checkout") {        
+    gitHash = gitCheckout()
+    echo "Git hash: ${gitHash}"
+  }
+  
+  stage("build") {
+    container("ubuntu") {
+      withCredentials([
+              usernamePassword(credentialsId: 'repo-symphony', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')
+      ]) {
+        withEnv([
+          "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
+        ]) {
+          sh """
+            mv packaging/debian ./
+            echo 1.0 > debian/source/format
+            sed -i 's/1.23/1.22/g' go.mod
+            sed -i '/GOPROXY/d' debian/rules
+            dpkg-buildpackage -us -uc -rfakeroot || true
+          """
+          sh "sleep 3h"
+        } 
+      }
     }
+  }
+
+  stage("publish") {
+    sh """
+      gcloud artifacts generic upload \
+          --project=sym-prod-mr-tools-01 \
+          --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
+          --package=deb \
+          --version=1.0 \
+          --location=us-east4 \
+          --repository=sym-generic
+    """
+  }
 }}
 
 def addArtifactLinkToDescription(name, url) {
