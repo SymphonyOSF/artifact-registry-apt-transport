@@ -32,9 +32,6 @@ node(POD_LABEL) {
       withCredentials([
               usernamePassword(credentialsId: 'repo-symphony', usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')
       ]) {
-        withEnv([
-          "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
-        ]) {
           sh """
             export "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
             mv packaging/debian ./
@@ -44,7 +41,6 @@ node(POD_LABEL) {
             dpkg-buildpackage -us -uc -rfakeroot || true
           """
           sh "sleep 3h"
-        } 
       }
     }
   }
