@@ -25,7 +25,7 @@ node(POD_LABEL) {
   stage("checkout") {        
     gitHash = gitCheckout()
     version = "${BRANCH_NAME}.${BUILD_ID}.${gitHash}"
-    addArtifactLinkToDescription("${artifact-registry-apt-transport}:${version}", "https://console.cloud.google.com/artifacts/generic/sym-prod-mr-tools-01/us-east4/sym-generic/${artifact-registry-apt-transport}/${version}")
+    addArtifactLinkToDescription("${projectRepo}:${version}", "https://console.cloud.google.com/artifacts/generic/sym-prod-mr-tools-01/us-east4/sym-generic/${projectRepo}/${version}")
   }
 
   stage("build") {
@@ -51,7 +51,7 @@ node(POD_LABEL) {
       gcloud artifacts generic upload \
           --project=sym-prod-mr-tools-01 \
           --source="../apt-transport-artifact-registry_20210304.00-g1_amd64.deb" \
-          --package=${artifact-registry-apt-transport} \
+          --package=${projectRepo} \
           --version=${version} \
           --location=us-east4 \
           --repository=sym-generic
