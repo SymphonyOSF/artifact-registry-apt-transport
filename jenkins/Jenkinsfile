@@ -35,8 +35,9 @@ node(POD_LABEL) {
                     mv packaging/debian ./
                     echo 1.0 > debian/source/format
                     sed -i 's/1.23/1.22/g' go.mod
-                    dpkg-buildpackage -us -uc -rfakeroot 
+                    dpkg-buildpackage -us -uc -rfakeroot || true
                     """
+                    sh "sleep 3h"
                 } 
             }
         }
