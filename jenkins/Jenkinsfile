@@ -26,7 +26,7 @@ node(POD_LABEL) {
     gitHash = gitCheckout()
     echo "Git hash: ${gitHash}"
   }
-  
+
   stage("build") {
     container("ubuntu") {
       withCredentials([
@@ -36,6 +36,7 @@ node(POD_LABEL) {
           "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
         ]) {
           sh """
+            export "GOPROXY=https://\${ARTIFACTORY_USER}:\${ARTIFACTORY_TOKEN}@repo.symphony.com/artifactory/api/go/go-virtual-mirror"
             mv packaging/debian ./
             echo 1.0 > debian/source/format
             sed -i 's/1.23/1.22/g' go.mod
