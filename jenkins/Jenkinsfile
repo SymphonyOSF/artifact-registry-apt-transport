@@ -35,11 +35,8 @@ node(POD_LABEL) {
                     mv packaging/debian ./
                     echo 1.0 > debian/source/format
                     sed -i 's/1.23/1.22/g' go.mod
-                    cat debian/rules
                     dpkg-buildpackage -us -uc -rfakeroot 
                     """
-
-                    sh 'find ../ -type f -name "apt-transport-artifact-registry_20210304.00-g1_amd64.deb"'
                 } 
             }
         }
